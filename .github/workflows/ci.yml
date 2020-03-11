@@ -1,0 +1,32 @@
+name: ci
+on:
+  - push
+jobs:
+  integration:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Create comment
+        uses: ./
+        id: create
+        with:
+          type: create
+          body: "- [ ] Run tests"
+          issue_number: '1'
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update comment
+        uses: ./
+        id: edit
+        with:
+          type: edit
+          body: "- [x] Run tests"
+          comment_id: ${{ steps.create.outputs.id }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Test results
+        run: |
+          [[ "${{ steps.create.outputs.id }}" == "${{ steps.edit.outputs.id }}" ]] || exit 1
+          [[ "${{ steps.edit.outputs.body }}" == "- [x] Run tests" ]] || exit 1
