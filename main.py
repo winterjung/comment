@@ -54,7 +54,7 @@ def create(token, repo, body, issue_number) -> Tuple[str, str]:
         exit(1)
 
     json = resp.json()
-    return json['id'], body
+    return str(json['id']), body
 
 
 def edit(token, repo, body, comment_id) -> Tuple[str, str]:
@@ -76,7 +76,7 @@ def edit(token, repo, body, comment_id) -> Tuple[str, str]:
         exit(1)
 
     json = resp.json()
-    return json['id'], body
+    return str(json['id']), body
 
 
 def main():
