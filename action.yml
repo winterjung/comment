@@ -1,5 +1,8 @@
 name: Comment Action
 description: Create and edit comment on PR, issue
+branding:
+  icon: message-square
+  color: blue
 inputs:
   type:
     required: true
