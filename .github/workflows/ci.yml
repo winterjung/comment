@@ -4,37 +4,40 @@ on:
   - push
 
 jobs:
-  integration:
+  build:
     runs-on: ubuntu-18.04
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
       - name: Build
-        run: docker build -t winterjung/comment:latest .
+        run: docker build -t build-test .
 
-      - name: Login docker
-        run: echo "$DOCKER_PASSWORD" | docker login --username "winterjung" --password-stdin
-        env:
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+  integration:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
 
       - name: Create comment
-        uses: ./
         id: create
-        with:
-          type: create
-          body: "- [ ] Run tests"
-          issue_number: '1'
-          token: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 main.py
+        env:
+          INPUT_TYPE: create
+          INPUT_BODY: "- [ ] Run tests"
+          INPUT_ISSUE_NUMBER: "1"
+          INPUT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Update comment
-        uses: ./
         id: edit
-        with:
-          type: edit
-          body: "- [x] Run tests"
-          comment_id: ${{ steps.create.outputs.id }}
-          token: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 main.py
+        env:
+          INPUT_TYPE: edit
+          INPUT_BODY: "- [x] Run tests"
+          INPUT_COMMENT_ID: "${{ steps.create.outputs.id }}"
+          INPUT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Test results
         run: |
