@@ -1,6 +1,8 @@
 name: ci
+
 on:
   - push
+
 jobs:
   integration:
     runs-on: ubuntu-18.04
