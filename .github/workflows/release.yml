@@ -14,6 +14,8 @@ jobs:
 
       - name: Create Release
         uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
@@ -29,7 +31,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v1
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
+          username: winterjung
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: winterjung/comment
           tag_with_ref: true
