@@ -26,7 +26,7 @@ outputs:
     description: body of new comment
 runs:
   using: docker
-  image: Dockerfile
+  image: docker://winterjung:comment
   args:
     - ${{ inputs.type }}
     - ${{ inputs.body }}
