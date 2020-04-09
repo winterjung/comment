@@ -13,6 +13,11 @@ jobs:
       - name: Build
         run: docker build -t winterjung/comment:latest .
 
+      - name: Login docker
+        run: echo "$DOCKER_PASSWORD" | docker login --username "winterjung" --password-stdin
+        env:
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
       - name: Create comment
         uses: ./
         id: create
