@@ -50,7 +50,7 @@ jobs:
           python3 main.py
         env:
           INPUT_TYPE: delete
-          INPUT_COMMENT_ID: "${{ steps.create.outputs.id }}"
+          INPUT_COMMENT_ID: "${{ steps.edit.outputs.id }}"
           INPUT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Test delete
