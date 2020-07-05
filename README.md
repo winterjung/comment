@@ -7,9 +7,9 @@
 ## Inputs
 
 - `type`: `create`, `edit` or `delete`
-- `body`: Comment body
 - `token`: GitHub token
-- `comment_id`: Comment id to edit body. Required with `edit` type.
+- `body`: Comment body. Required with `create` and `edit` type.
+- `comment_id`: Comment id to edit body. Required with `edit` and `delete` type.
 - `issue_number`: Number of PR, issue to comment. Required with `create` type.
 
 ## Outputs
