@@ -39,7 +39,20 @@ jobs:
           INPUT_COMMENT_ID: "${{ steps.create.outputs.id }}"
           INPUT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Test results
+      - name: Test create and edit
         run: |
           [[ "${{ steps.create.outputs.id }}" == "${{ steps.edit.outputs.id }}" ]] || exit 1
           [[ "${{ steps.edit.outputs.body }}" == "- [x] Run tests" ]] || exit 1
+
+      - name: Delete comment
+        id: delete
+        run: |
+          python3 main.py
+        env:
+          INPUT_TYPE: delete
+          INPUT_COMMENT_ID: "${{ steps.create.outputs.id }}"
+          INPUT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Test delete
+        run: |
+          [[ "${{ steps.delete.outputs.id }}" == "" ]] || exit 1
