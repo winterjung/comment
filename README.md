@@ -6,7 +6,7 @@
 
 ## Inputs
 
-- `type`: `create` or `edit`
+- `type`: `create`, `edit` or `delete`
 - `body`: Comment body
 - `token`: GitHub token
 - `comment_id`: Comment id to edit body. Required with `edit` type.
@@ -14,8 +14,8 @@
 
 ## Outputs
 
-- `id`: Created or edited comment id
-- `body`: comment body
+- `id`: Created or edited comment id. Empty string for delete.
+- `body`: Comment body. Empty string for delete.
 
 ## Example
 
@@ -39,6 +39,13 @@ jobs:
         with:
           type: edit
           body: "- [x] Run tests"
+          comment_id: ${{ steps.create.outputs.id }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Delete comment
+        uses: jungwinter/comment@v1
+        with:
+          type: delete
           comment_id: ${{ steps.create.outputs.id }}
           token: ${{ secrets.GITHUB_TOKEN }}
 ```
