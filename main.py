@@ -1,5 +1,6 @@
 import os
 import sys
+from http import HTTPStatus
 from typing import Optional, Tuple
 
 import requests
@@ -47,7 +48,7 @@ def create(token, repo, body, issue_number) -> Tuple[str, str]:
         headers=headers,
         json=data,
     )
-    if resp.status_code != 201:
+    if resp.status_code != HTTPStatus.CREATED:
         print_action_error(f'cannot create comment')
         print_action_debug(f'status code: {resp.status_code}')
         print_action_debug(f'response body: {resp.text}')
@@ -69,7 +70,7 @@ def edit(token, repo, body, comment_id) -> Tuple[str, str]:
         headers=headers,
         json=data,
     )
-    if resp.status_code != 200:
+    if resp.status_code != HTTPStatus.OK:
         print_action_error(f'cannot edit comment')
         print_action_debug(f'status code: {resp.status_code}')
         print_action_debug(f'response body: {resp.text}')
@@ -87,20 +88,20 @@ def delete(token, repo, comment_id) -> Tuple[str, str]:
         f'{GITHUB_API_BASE_URL}/repos/{repo}/issues/comments/{comment_id}',
         headers=headers,
     )
-    if resp.status_code != 204:
+    if resp.status_code != HTTPStatus.NO_CONTENT:
         print_action_error(f'cannot delete comment')
         print_action_debug(f'status code: {resp.status_code}')
         print_action_debug(f'response body: {resp.text}')
         exit(1)
 
-    return '', '' 
+    return '', ''
 
 
 def main():
     repo = os.environ['GITHUB_REPOSITORY']
     action_type = get_action_input('type', required=True)
-    body = get_action_input('body', required=True)
     token = get_action_input('token', required=True)
+    body = get_action_input('body')
     comment_id = get_action_input('comment_id')
     issue_number = get_action_input('issue_number')
 
@@ -110,7 +111,7 @@ def main():
     elif action_type == 'edit':
         _id, _body = edit(token, repo, body, comment_id)
     elif action_type == 'delete':
-        _id, _body = edit(token, repo, comment_id)
+        _id, _body = delete(token, repo, comment_id)
 
     set_action_output('id', _id)
     set_action_output('body', _body)
