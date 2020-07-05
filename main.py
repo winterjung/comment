@@ -93,14 +93,14 @@ def delete(token, repo, comment_id) -> Tuple[str, str]:
         print_action_debug(f'response body: {resp.text}')
         exit(1)
 
-    return '', '' 
+    return '', ''
 
 
 def main():
     repo = os.environ['GITHUB_REPOSITORY']
     action_type = get_action_input('type', required=True)
-    body = get_action_input('body', required=True)
     token = get_action_input('token', required=True)
+    body = get_action_input('body')
     comment_id = get_action_input('comment_id')
     issue_number = get_action_input('issue_number')
 
