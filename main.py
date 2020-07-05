@@ -111,7 +111,7 @@ def main():
     elif action_type == 'edit':
         _id, _body = edit(token, repo, body, comment_id)
     elif action_type == 'delete':
-        _id, _body = edit(token, repo, comment_id)
+        _id, _body = delete(token, repo, comment_id)
 
     set_action_output('id', _id)
     set_action_output('body', _body)
