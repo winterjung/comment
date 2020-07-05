@@ -7,15 +7,15 @@ inputs:
   type:
     required: true
     description: create|edit
-  body:
-    required: true
-    description: comment body
   token:
     required: true
     description: github token
+  body:
+    required: false
+    description: comment body
   comment_id:
     required: false
-    description: required when edit comment
+    description: required when edit, delete comment
   issue_number:
     required: false
     description: required when create comment
@@ -29,7 +29,7 @@ runs:
   image: docker://winterjung/comment:v1
   args:
     - ${{ inputs.type }}
-    - ${{ inputs.body }}
     - ${{ inputs.token }}
+    - ${{ inputs.body }}
     - ${{ inputs.comment_id }}
     - ${{ inputs.issue_number }}
