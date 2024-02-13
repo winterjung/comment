@@ -1,6 +1,6 @@
 # Comment
 
-[![Actions Status](https://github.com/jungwinter/comment/workflows/ci/badge.svg)](https://github.com/jungwinter/comment/actions)
+[![Actions Status](https://github.com/winterjung/comment/workflows/ci/badge.svg)](https://github.com/winterjung/comment/actions)
 
 > GitHub action to comment on PR, issue
 
@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Create comment
-        uses: jungwinter/comment@v1
+        uses: winterjung/comment@v1
         id: create
         with:
           type: create
@@ -35,7 +35,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Update comment
-        uses: jungwinter/comment@v1
+        uses: winterjung/comment@v1
         with:
           type: edit
           body: "- [x] Run tests"
@@ -43,7 +43,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Delete comment
-        uses: jungwinter/comment@v1
+        uses: winterjung/comment@v1
         with:
           type: delete
           comment_id: ${{ steps.create.outputs.id }}
